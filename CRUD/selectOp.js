@@ -8,11 +8,12 @@ const getAllMovies=(req,res)=> {
     dynamoDB.scan(params, function(err, data) {
       if (err) {
         console.error("Unable to find movies", err);
-        res.send(err)
+        res.status(400).send(err)
       } else {
         console.log("Found " +data.Count+ " movies");
         console.log(data.Items);
-        res.send(data.Items)
+      
+        res.status(200).send(data.Items)
       }
     });
   }
@@ -30,10 +31,13 @@ const getAllMovies=(req,res)=> {
       dynamoDB.getItem(params, function(err, data) {
         if (err) {
           console.error("Unable to find movie", err);
-          res.send(err)
+          res.status(400).send(err)
         } else {
           console.log("Found movie", data.Item);
-          res.send(data.Item)
+          if(data.Item===undefined){
+           return  res.status(404).send("movie is not exist")
+          }
+        return  res.status(200).send(data.Item)
         }
       });
   

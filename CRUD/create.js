@@ -12,7 +12,7 @@ const createTable=(req,res)=>{
     };
     dynamoDB.createTable(params,function(err,data){
         if(err){
-            console.error("unable to create table"+err);
+            console.log("unable to create table"+err);
             res.status(404).send(err)
         }
         else{

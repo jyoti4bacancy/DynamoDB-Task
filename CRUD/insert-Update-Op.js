@@ -3,7 +3,7 @@ const dynamoDB=require('../config')
 const addMovie=(req,res)=>{
   let title=req.body.title
   let rateScore=req.body.rateScore
-  console.log(title, rateScore);
+ // console.log(title, rateScore);
 
   function setData(title,rateScore){
     const params={
@@ -17,12 +17,12 @@ const addMovie=(req,res)=>{
   
       dynamoDB.putItem(params,function(err){
           if(err){
-              console.error("unable to add movie"+err);
-              res.send(err)
+              console.log("unable to add movie"+err);
+              res.status(400).send(err)
           }
           else{
               console.log(title+" movie added with "+rateScore+" rate");
-              res.send(title+" movie added with "+rateScore+" rate")
+              res.status(200).send(title+" movie added with "+rateScore+" rate")
           }
       })
   }
@@ -45,11 +45,11 @@ function updateData(title,newRateScore){
 
   dynamoDB.putItem(params, function(err) {
     if (err) {
-      console.error("Unable to find movie", err);
-      res.send(err)
+      console.log("value of title and rateScore should not be null", err);
+      res.status(400).send(err)
     } else {
       console.log(`Updated ${title} with new Rate Score of ${newRateScore}%`);
-      res.send(`Updated ${title} with new Rate Score of ${newRateScore}%`)
+      res.status(200).send(`Updated ${title} with new Rate Score of ${newRateScore}%`)
     }
   });
 }
